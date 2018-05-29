@@ -44,7 +44,7 @@ output_file_name_for_path () {
 for i in "${arr[@]}"
 do
 	echo
-	echo "$i"
 	file_name=$(output_file_name_for_path $i)
+	echo "$i: $file_name"
 	eval "sourceCodeSummary.sh $i tsv anon > $file_name"
 done
