@@ -125,25 +125,10 @@ truncate_to_10_chars() {
 	echo $OUTPUT
 }
 
-# truncate anonymous string.
-truncate_to_5_chars() {
-	local OUTPUT
-	OUTPUT=$(echo $1 |head -c 5)
-	echo $OUTPUT
-}
-
-anonymize_string () {
-	local md5
-	md5=$(md5<<<"$1")
-	local result
-	result=$(truncate_to_5_chars $md5)
-	echo "anon"$result
-}
-
 anonymize_string_if_needed() {
 	if [ $ANONYMOUS == "anon" ]
 	then 
-		echo $(anonymize_string $1)
+		echo $(anonymize.sh $1)
 	else
 		echo $($1)
 	fi

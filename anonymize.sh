@@ -27,24 +27,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# Fill in paths for all your projects.
-arr=(
-	"Path/to/some/project/swift/files"
-	"Path/to/another/project/swift/files"
-	"Path/to/yetanother/project/swift/files"
-)
-
-# Output path is the current directory.
-output_file_name_for_path () {
+# truncate anonymous string.
+truncate_to_5_chars() {
 	local OUTPUT
-	OUTPUT=$(anonymize.sh $1)
-	echo "${OUTPUT}.txt"
+	OUTPUT=$(echo $1 |head -c 5)
+	echo $OUTPUT
 }
 
-for i in "${arr[@]}"
-do
-	echo
-	echo "$i"
-	file_name=$(output_file_name_for_path $i)
-	eval "sourceCodeSummary.sh $i tsv anon > $file_name"
-done
+anonymize_string () {
+	local md5
+	md5=$(md5<<<"$1")
+	local result
+	result=$(truncate_to_5_chars $md5)
+	echo "anon"$result
+}
+
+echo $(anonymize_string $1)
