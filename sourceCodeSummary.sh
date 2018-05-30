@@ -1,26 +1,26 @@
 #!/bin/bash
 #
 # Andrei Nagy 2018-05-27
-# 
+#
 # Project source code summary
 #
 # Style guide:
 # https://google.github.io/styleguide/shell.xml
 #
 # The MIT License (MIT)
-# 
+#
 # Copyright (c) 2015 XMARTLABS
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in all
 # copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -35,20 +35,20 @@ ANONYMOUS_OPTION="anon"
 
 if [[ $# -eq 0 ]] ; then
     echo "Project source code summary
-    
+
     Note: To ignore Pods, pass the main project source code folder.
     Note: Basic grep is used for keywords, false possitives can/will occur.
-    
-    JSON output usage: 
+
+    JSON output usage:
     	sourceCodeSummary.sh /Path/To/Main/SwiftFiles/Folder
-    	
-    anonymous JSON output: 
+
+    anonymous JSON output:
     	sourceCodeSummary.sh /Path/To/Main/SwiftFiles/Folder $ANONYMOUS_OPTION
-    
-    TSV output: 
+
+    TSV output:
     	sourceCodeSummary.sh /Path/To/Main/SwiftFiles/Folder $FORMAT_TSV
-    
-    anonymous TSV: 
+
+    anonymous TSV:
     	sourceCodeSummary.sh /Path/To/Main/SwiftFiles/Folder $FORMAT_TSV $ANONYMOUS_OPTION
     "
     exit 0
@@ -81,7 +81,7 @@ fi
 
 if [[ $2 == $FORMAT_TSV ]] || [[ $3 == $FORMAT_TSV ]]; then
 	FORMAT=$FORMAT_TSV
-	
+
 	JSON_BRACE_OPEN=""
 	JSON_BRACE_CLOSE=""
 	JSON_BRACKET_OPEN=""
@@ -151,7 +151,7 @@ truncate_to_10_chars() {
 }
 
 anonymize_string_if_needed() {
-	if [ "$SHOULD_ANONYMIZE" = true ]; then 
+	if [ "$SHOULD_ANONYMIZE" = true ]; then
 		echo $(anonymize.sh $1)
 	else
 		echo $1
@@ -159,7 +159,7 @@ anonymize_string_if_needed() {
 }
 
 print_if_json() {
-	if [[ $FORMAT == $FORMAT_JSON ]];	then 
+	if [[ $FORMAT == $FORMAT_JSON ]]; then
 		echo -e $1
 	fi
 }
@@ -171,7 +171,7 @@ print_json_key_value() { # With optional leading space and trailingcomma
 # Shell commands
 
 files_number() { # file type in $1
-	# Number of files		find . -name "*.swift" |wc -l	
+	# Number of files		find . -name "*.swift" |wc -l
 	local command_string
 	command_string="find . -name \"*.$1\" |wc -l"
 	local command_result
@@ -215,7 +215,7 @@ date_from_git_command() {
 }
 
 date_start() {
-	# Project start date		git log --date=iso --reverse |head -3 |grep "Date"	
+	# Project start date		git log --date=iso --reverse |head -3 |grep "Date"
 	local result
 	result=$(date_from_git_command "git log --date=iso --reverse |head -3 |grep \"Date\"")
 	echo $result
@@ -228,7 +228,7 @@ date_end () {
 }
 
 contributors_number () {
-	# Number of contributors		git shortlog -s -n |wc -l	
+	# Number of contributors		git shortlog -s -n |wc -l
 	local command_string
 	command_string="git shortlog -s -n |wc -l"
 	local command_result
@@ -239,23 +239,23 @@ contributors_number () {
 }
 
 print_contributors () {
-	# Number of contributors		git shortlog -s -n |wc -l	
+	# Number of contributors		git shortlog -s -n |wc -l
 	local command_string
 	command_string="git shortlog -s -n"
 	local command_result
 	command_result="$(eval $command_string)"
-	
+
 	while read -r line; do
 	    IFS='	' read -r commits author <<< "$line"
 	    print_if_json $1$JSON_BRACE_OPEN
-	    
+
 	    local auth
 	    auth=$(anonymize_string_if_needed $author)
 	    echo -e $1$INDENT$JSON_QUOTES$auth$JSON_QUOTES$JSON_COLON$commits
-	    
+
 	    print_if_json $1$JSON_BRACE_CLOSE$JSON_COMMA
 	done <<< "$command_result"
-	
+
 	print_if_json $1$JSON_BRACE_OPEN
 # 	print_if_json $1$INDENT$JSON_QUOTES"no_comma"$JSON_QUOTES$JSON_COLON"0" not working for some reason
 	print_if_json $1$INDENT"\"no_comma\":0"
@@ -263,11 +263,11 @@ print_contributors () {
 }
 
 print_empty_lines_if_tsv() {
-	if [[ $FORMAT == $FORMAT_TSV ]]; then 
+	if [[ $FORMAT == $FORMAT_TSV ]]; then
 		for i in `seq 1 $1`;
 		do
 			echo
-		done	
+		done
 	fi
 }
 
@@ -277,10 +277,10 @@ print_array_occurences() { # array argument
 	do
 		print_json_key_value $INDENT "$i"	$(occurrences_number $FILE_EXTENSION $i)	$JSON_COMMA
 	done
-	
+
 	array_lenght="${#arr[@]}"
 	needed_empty_lines=$((HACK_TSV_KEYWORDS_LENGHT-array_lenght))
-	print_empty_lines_if_tsv $needed_empty_lines 
+	print_empty_lines_if_tsv $needed_empty_lines
 }
 
 # Main
@@ -306,27 +306,27 @@ print_if_json $JSON_BRACE_CLOSE$JSON_COMMA
 echo -e $JSON_QUOTES"keywords_types"$JSON_QUOTES$JSON_COLON$JSON_BRACE_OPEN
 print_array_occurences "${TYPES[@]}"
 print_json_key_value $INDENT "no_comma"	$JSON_QUOTES"Strings occurrences only. May result in false positives."$JSON_QUOTES
-print_if_json $JSON_BRACE_CLOSE$JSON_COMMA 
+print_if_json $JSON_BRACE_CLOSE$JSON_COMMA
 
 echo -e $JSON_QUOTES"keywords_functions"$JSON_QUOTES$JSON_COLON$JSON_BRACE_OPEN
 print_array_occurences "${FUNCTIONS[@]}"
 print_json_key_value $INDENT "no_comma"	$JSON_QUOTES"Strings occurrences only. May result in false positives."$JSON_QUOTES
-print_if_json $JSON_BRACE_CLOSE$JSON_COMMA 
+print_if_json $JSON_BRACE_CLOSE$JSON_COMMA
 
 echo -e $JSON_QUOTES"keywords_complexity"$JSON_QUOTES$JSON_COLON$JSON_BRACE_OPEN
 print_array_occurences "${COMPLEXITY[@]}"
 print_json_key_value $INDENT "no_comma"	$JSON_QUOTES"Strings occurrences only. May result in false positives."$JSON_QUOTES
-print_if_json $JSON_BRACE_CLOSE$JSON_COMMA 
+print_if_json $JSON_BRACE_CLOSE$JSON_COMMA
 
 echo -e $JSON_QUOTES"keywords_positive"$JSON_QUOTES$JSON_COLON$JSON_BRACE_OPEN
 print_array_occurences "${POSITIVE[@]}"
 print_json_key_value $INDENT "no_comma"	$JSON_QUOTES"Strings occurrences only. May result in false positives."$JSON_QUOTES
-print_if_json $JSON_BRACE_CLOSE$JSON_COMMA 
+print_if_json $JSON_BRACE_CLOSE$JSON_COMMA
 
 echo -e $JSON_QUOTES"keywords_negative"$JSON_QUOTES$JSON_COLON$JSON_BRACE_OPEN
 print_array_occurences "${NEGATIVE[@]}"
 print_json_key_value $INDENT "no_comma"	$JSON_QUOTES"Strings occurrences only. May result in false positives."$JSON_QUOTES
-print_if_json $JSON_BRACE_CLOSE$JSON_COMMA 
+print_if_json $JSON_BRACE_CLOSE$JSON_COMMA
 
 echo -e $JSON_QUOTES"git"$JSON_QUOTES$JSON_COLON$JSON_BRACE_OPEN
 print_json_key_value $INDENT "commit_first"	"$JSON_QUOTES$(date_start)$JSON_QUOTES"	$JSON_COMMA
