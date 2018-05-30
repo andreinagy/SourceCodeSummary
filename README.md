@@ -10,6 +10,8 @@ It collects project stats from a directory containing swift files. For example:
 
 The output is intended for quick quality metrics.
 
+![SourceCodeSummary overview](https://github.com/andreinagy/SourceCodeSummary/blob/master/sourceCodeSummary.png)
+
 # Table of Contents
 1. [Installation](#Installation)
 2. [Demo](#Demo)
