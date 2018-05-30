@@ -29,6 +29,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+FORMAT_JSON="JSON"
+FORMAT_TSV="TSV"
+ANONYMOUS_OPTION="anon"
+
 if [[ $# -eq 0 ]] ; then
     echo "Project source code summary
     
@@ -36,13 +40,16 @@ if [[ $# -eq 0 ]] ; then
     Note: Basic grep is used for keywords, false possitives can/will occur.
     
     JSON output usage: 
-    	sourceCodeSummary.sh /Path/To/Main/SwiftFiles/Folder json
+    	sourceCodeSummary.sh /Path/To/Main/SwiftFiles/Folder
+    	
+    anonymous JSON output: 
+    	sourceCodeSummary.sh /Path/To/Main/SwiftFiles/Folder $ANONYMOUS_OPTION
     
-    TSV output usage: 
-    	sourceCodeSummary.sh /Path/To/Main/SwiftFiles/Folder tsv
+    TSV output: 
+    	sourceCodeSummary.sh /Path/To/Main/SwiftFiles/Folder $FORMAT_TSV
     
-    anonimous tsv: 
-    	sourceCodeSummary.sh /Path/To/Main/SwiftFiles/Folder tsv anon
+    anonymous TSV: 
+    	sourceCodeSummary.sh /Path/To/Main/SwiftFiles/Folder $FORMAT_TSV $ANONYMOUS_OPTION
     "
     exit 0
 fi
@@ -52,7 +59,7 @@ INDENT='\t'
 # TSV Constants
 HACK_TSV_KEYWORDS_LENGHT=20
 
-# JSON Constants
+# JSON Constants get toggled for TSV
 JSON_BRACE_OPEN="{"
 JSON_BRACE_CLOSE="}"
 JSON_BRACKET_OPEN="["
@@ -64,21 +71,24 @@ JSON_COMMA=","
 # Arguments
 PROJECT_PATH=$1
 FILE_EXTENSION="swift"
-FORMAT=$2 #default is json
-ANONYMOUS="false"
-ANONYMOUS=$3
+FORMAT=$FORMAT_JSON
+
+SHOULD_ANONYMIZE=false
+if [[ $2 == $ANONYMOUS_OPTION ]] || [[ $3 == $ANONYMOUS_OPTION ]]; then
+	SHOULD_ANONYMIZE=true
+fi
 
 
-if [[ $FORMAT == "tsv" ]]; then 
+if [[ $2 == $FORMAT_TSV ]] || [[ $3 == $FORMAT_TSV ]]; then
+	FORMAT=$FORMAT_TSV
+	
 	JSON_BRACE_OPEN=""
 	JSON_BRACE_CLOSE=""
 	JSON_BRACKET_OPEN=""
 	JSON_BRACKET_CLOSE=""
 	JSON_QUOTES=""
-	JSON_COLON='\t'
+	JSON_COLON=$INDENT
 	JSON_COMMA=""
-else
-	FORMAT="JSON"	
 fi
 
 # Domain Constants
@@ -102,7 +112,7 @@ COMPLEXITY=(
 	" ? " # ternary operator
 )
 
-POSITIVE=(
+POSITIVE=( #keywords that denote good practices
 	"init?("
 	"init() throws"
 	"extension"
@@ -115,7 +125,7 @@ POSITIVE=(
 	"fatalError("
 )
 
-NEGATIVE=(
+NEGATIVE=( #keywords that denote bad practices
 	"! " #force unwrap, downcasting
 	" shared" #singletons
 	"DispatchQueue.main" #uses delays to layout views?
@@ -141,7 +151,7 @@ truncate_to_10_chars() {
 }
 
 anonymize_string_if_needed() {
-	if [[ $ANONYMOUS == "anon" ]]; then 
+	if [ "$SHOULD_ANONYMIZE" = true ]; then 
 		echo $(anonymize.sh $1)
 	else
 		echo $1
@@ -149,7 +159,7 @@ anonymize_string_if_needed() {
 }
 
 print_if_json() {
-	if [[ $FORMAT == "JSON" ]];	then 
+	if [[ $FORMAT == $FORMAT_JSON ]];	then 
 		echo -e $1
 	fi
 }
@@ -253,7 +263,7 @@ print_contributors () {
 }
 
 print_empty_lines_if_tsv() {
-	if [[ $FORMAT == "tsv" ]]; then 
+	if [[ $FORMAT == $FORMAT_TSV ]]; then 
 		for i in `seq 1 $1`;
 		do
 			echo
