@@ -48,6 +48,7 @@ fi
 PROJECT_PATH=$1
 FILE_EXTENSION="swift"
 FORMAT=$2 #default is json
+ANONYMOUS="false"
 ANONYMOUS=$3
 
 HACK_TSV_KEYWORDS_LENGHT=20
@@ -126,11 +127,10 @@ truncate_to_10_chars() {
 }
 
 anonymize_string_if_needed() {
-	if [ $ANONYMOUS == "anon" ]
-	then 
+	if [[ $ANONYMOUS == "anon" ]]; then 
 		echo $(anonymize.sh $1)
 	else
-		echo $($1)
+		echo $1
 	fi
 }
 
@@ -189,6 +189,7 @@ lines_number() {
 	echo ${OUTPUT}
 }
 
+# find . -name "*.swift" -print0 |xargs -0 cat |grep cat:
 occurrences_number() {
 	local CMD
 	CMD="find . -name \"*.$1\" | xargs cat | sed '/^\s*$/d' | grep -e \"$2\" | wc -l"
@@ -211,8 +212,7 @@ contributors_number () {
 }
 
 print_if_json () {
-	if [ $FORMAT == "JSON" ]
-	then 
+	if [[ $FORMAT == "JSON" ]];	then 
 		echo -e $1
 	fi
 }
@@ -240,8 +240,7 @@ print_contributors () {
 }
 
 print_empty_lines_if_tsv() {
-	if [ $FORMAT == "tsv" ]
-	then 
+	if [[ $FORMAT == "tsv" ]]; then 
 		for i in `seq 1 $1`;
 		do
 			echo
@@ -263,8 +262,7 @@ print_array_occurences() { # array argument
 
 # Main
 
-if [ $FORMAT == "tsv" ]
-then 
+if [[ $FORMAT == "tsv" ]]; then 
 	JSON_BRACE_OPEN=""
 	JSON_BRACE_CLOSE=""
 	JSON_BRACKET_OPEN=""
@@ -332,7 +330,3 @@ print_if_json $INDENT$JSON_BRACKET_CLOSE
 
 print_if_json $JSON_BRACE_CLOSE #git
 print_if_json $JSON_BRACE_CLOSE #main
-
-
-
-
