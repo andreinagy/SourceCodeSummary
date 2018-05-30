@@ -1,0 +1,251 @@
+project	
+	script_title	/Users/andreinagy/_Work/LogicPods/SourceCodeSummary/sourceCodeSummary.sh
+	script_author	Andrei Nagy
+	project_path	Eureka/Example/
+	project_scan_date	2018-05-30
+files	
+	extension	swift
+	files_number	22
+	non_empty_lines_number	2991
+keywords_types	
+	class 	62
+	struct 	4
+	enum 	12
+	protocol 	0
+	typealias 	3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	no_comma	Strings occurrences only. May result in false positives.
+keywords_functions	
+	func 	93
+	{ (	687
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	no_comma	Strings occurrences only. May result in false positives.
+keywords_complexity	
+	if 	135
+	guard 	18
+	switch	7
+	 ? 	322
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	no_comma	Strings occurrences only. May result in false positives.
+keywords_positive	
+	init?(	16
+	init() throws	0
+	extension	2
+	forEach	1
+	map	23
+	 in 	604
+	self]	23
+	 ?? 	37
+	assert(	0
+	fatalError(	14
+
+
+
+
+
+
+
+
+
+
+	no_comma	Strings occurrences only. May result in false positives.
+keywords_negative	
+	! 	123
+	 shared	0
+	DispatchQueue.main	2
+	TODO	0
+	FIXME	0
+	TBD	0
+	HACK	0
+
+
+
+
+
+
+
+
+
+
+
+
+
+	no_comma	Strings occurrences only. May result in false positives.
+git	
+	commit_first	2015-09-28
+	commit_last	2018-05-18
+	contributors_number	127
+	contributors	
+		Martin	409
+		Mathias	80
+		Marco	10
+		Ilya	9
+		Spencer	9
+		Miguel	8
+		mtnbarreto	7
+		Joaquin	5
+		MARTIN	5
+		Diego	4
+		Antti	4
+		Yoann	4
+		Denis	4
+		Hiromichi	3
+		Yannick	3
+		SpencerC	3
+		Alexandre	3
+		Lebron	3
+		Joshua	3
+		remer	2
+		skrosoft	2
+		su23	2
+		Clay	2
+		Peyman	2
+		Pierluigi	2
+		Reinier	2
+		Karl	2
+		KevinGong2013	2
+		Donald	2
+		Siarhei	2
+		Svetoslav	2
+		Teun	2
+		Txai	2
+		BAN	2
+		Andrew	2
+		Yuki	2
+		Benjamin	2
+		Jeff	2
+		Federico	2
+		mats-claassen	2
+		ogidow	2
+		Owen	2
+		Florian	2
+		rcrsv2n	2
+		Lausbert	1
+		Logan	1
+		Markus	1
+		Mathieu	1
+		Mauricio	1
+		Max	1
+		Maxime	1
+		Pablo	1
+		Pedro	1
+		Pete	1
+		Phillip	1
+		Robert	1
+		Roberto	1
+		Sam	1
+		Scott	1
+		Sebastian	1
+		Seven	1
+		Tim	1
+		Ugo	1
+		Victor	1
+		Vladislav	1
+		Weyert	1
+		Wouter	1
+		Yoshiyuki	1
+		Zev	1
+		bennibau	1
+		dalbin	1
+		estebansotoara	1
+		inket	1
+		jechol	1
+		pera	1
+		phiberjenz	1
+		quiekedei	1
+		sotozaki	1
+		sunbohong	1
+		tjboneman	1
+		vbali	1
+		yurevich1	1
+		Alex	1
+		Štěpán	1
+		Alper	1
+		Amitai	1
+		Andrea	1
+		Andreas	1
+		Andrew	1
+		Andrew	1
+		Anthony	1
+		Arsalan	1
+		BJ	1
+		Brandon	1
+		Brian	1
+		Bruno	1
+		Camille	1
+		Carlos	1
+		Chris	1
+		Colin	1
+		Colin	1
+		Dal	1
+		David	1
+		David	1
+		Dawid	1
+		Dword	1
+		Edward	1
+		Efrén	1
+		Ezequiel	1
+		Felipe	1
+		Giovanni	1
+		Gleb	1
+		Hélène	1
+		Igor	1
+		Jan	1
+		Jan	1
+		Jason	1
+		Jason	1
+		Jesse	1
+		Joakim	1
+		Joakim	1
+		Jonathan	1
+		Jorge	1
+		Joseph	1
+		Keving.Gong	1
+		Krunoslav	1
+		Kyosuke	1

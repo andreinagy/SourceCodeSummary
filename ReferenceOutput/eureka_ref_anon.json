@@ -1,0 +1,447 @@
+{
+"project": {
+	"script_title": "/Users/andreinagy/_Work/LogicPods/SourceCodeSummary/sourceCodeSummary.sh",
+	"script_author": "Andrei Nagy",
+	"project_path": "anon01b3a",
+	"project_scan_date": "2018-05-30"
+},
+"files": {
+	"extension": "swift",
+	"files_number": 22,
+	"non_empty_lines_number": 2991
+},
+"keywords_types": {
+	"class ": 62,
+	"struct ": 4,
+	"enum ": 12,
+	"protocol ": 0,
+	"typealias ": 3,
+	"no_comma": "Strings occurrences only. May result in false positives."
+},
+"keywords_functions": {
+	"func ": 93,
+	"{ (": 687,
+	"no_comma": "Strings occurrences only. May result in false positives."
+},
+"keywords_complexity": {
+	"if ": 135,
+	"guard ": 18,
+	"switch": 7,
+	" ? ": 322,
+	"no_comma": "Strings occurrences only. May result in false positives."
+},
+"keywords_positive": {
+	"init?(": 16,
+	"init() throws": 0,
+	"extension": 2,
+	"forEach": 1,
+	"map": 23,
+	" in ": 604,
+	"self]": 23,
+	" ?? ": 37,
+	"assert(": 0,
+	"fatalError(": 14,
+	"no_comma": "Strings occurrences only. May result in false positives."
+},
+"keywords_negative": {
+	"! ": 123,
+	" shared": 0,
+	"DispatchQueue.main": 2,
+	"TODO": 0,
+	"FIXME": 0,
+	"TBD": 0,
+	"HACK": 0,
+	"no_comma": "Strings occurrences only. May result in false positives."
+},
+"git": {
+	"commit_first": "2015-09-28",
+	"commit_last": "2018-05-18",
+	"contributors_number": 127,
+	"contributors": [
+	{
+		"anon406a3": 409
+	},
+	{
+		"anon67004": 80
+	},
+	{
+		"anonad7cd": 10
+	},
+	{
+		"anonaea3e": 9
+	},
+	{
+		"anonf8046": 9
+	},
+	{
+		"anon80320": 8
+	},
+	{
+		"anond6f04": 7
+	},
+	{
+		"anon23cff": 5
+	},
+	{
+		"anoncfd1d": 5
+	},
+	{
+		"anon0cb5e": 4
+	},
+	{
+		"anond3303": 4
+	},
+	{
+		"anon44f76": 4
+	},
+	{
+		"anonf6cc1": 4
+	},
+	{
+		"anon56659": 3
+	},
+	{
+		"anonaf227": 3
+	},
+	{
+		"anon4f3e4": 3
+	},
+	{
+		"anon26ed8": 3
+	},
+	{
+		"anon8e294": 3
+	},
+	{
+		"anon0ef33": 3
+	},
+	{
+		"anon991e7": 2
+	},
+	{
+		"anonf8248": 2
+	},
+	{
+		"anon240ec": 2
+	},
+	{
+		"anon53f3a": 2
+	},
+	{
+		"anonb9adf": 2
+	},
+	{
+		"anonb25a4": 2
+	},
+	{
+		"anon73fb6": 2
+	},
+	{
+		"anonb3529": 2
+	},
+	{
+		"anon0793c": 2
+	},
+	{
+		"anon741e1": 2
+	},
+	{
+		"anon8d10a": 2
+	},
+	{
+		"anonfabb5": 2
+	},
+	{
+		"anonbee8a": 2
+	},
+	{
+		"anon9943d": 2
+	},
+	{
+		"anon48ad8": 2
+	},
+	{
+		"anon6538c": 2
+	},
+	{
+		"anonfd3bb": 2
+	},
+	{
+		"anone07cf": 2
+	},
+	{
+		"anoncc789": 2
+	},
+	{
+		"anon8f36e": 2
+	},
+	{
+		"anonbfb5d": 2
+	},
+	{
+		"anon9b7cd": 2
+	},
+	{
+		"anon674d4": 2
+	},
+	{
+		"anon7efa2": 2
+	},
+	{
+		"anonc2364": 2
+	},
+	{
+		"anon9de08": 1
+	},
+	{
+		"anonb112a": 1
+	},
+	{
+		"anon32cc6": 1
+	},
+	{
+		"anonab43e": 1
+	},
+	{
+		"anon660c2": 1
+	},
+	{
+		"anon5783a": 1
+	},
+	{
+		"anonff5fc": 1
+	},
+	{
+		"anon9d99d": 1
+	},
+	{
+		"anon01fa2": 1
+	},
+	{
+		"anonf90e4": 1
+	},
+	{
+		"anon14bbd": 1
+	},
+	{
+		"anon99a15": 1
+	},
+	{
+		"anoneff37": 1
+	},
+	{
+		"anon97f41": 1
+	},
+	{
+		"anon55dc8": 1
+	},
+	{
+		"anon8c0c2": 1
+	},
+	{
+		"anon47ffd": 1
+	},
+	{
+		"anon54aaf": 1
+	},
+	{
+		"anon8d31e": 1
+	},
+	{
+		"anoneaaa8": 1
+	},
+	{
+		"anonbb7a8": 1
+	},
+	{
+		"anon8f784": 1
+	},
+	{
+		"anon241ce": 1
+	},
+	{
+		"anon73f5e": 1
+	},
+	{
+		"anon25196": 1
+	},
+	{
+		"anon42f0b": 1
+	},
+	{
+		"anon33822": 1
+	},
+	{
+		"anon0c9b5": 1
+	},
+	{
+		"anonabbc4": 1
+	},
+	{
+		"anoncb740": 1
+	},
+	{
+		"anon42b97": 1
+	},
+	{
+		"anon1dc0c": 1
+	},
+	{
+		"anonc2c57": 1
+	},
+	{
+		"anon20e53": 1
+	},
+	{
+		"anon5f859": 1
+	},
+	{
+		"anon615e0": 1
+	},
+	{
+		"anonda5ac": 1
+	},
+	{
+		"anon07755": 1
+	},
+	{
+		"anon94ece": 1
+	},
+	{
+		"anon1c4b0": 1
+	},
+	{
+		"anonc77bf": 1
+	},
+	{
+		"anonc129f": 1
+	},
+	{
+		"anone3562": 1
+	},
+	{
+		"anon5d6b0": 1
+	},
+	{
+		"anon6538c": 1
+	},
+	{
+		"anon6538c": 1
+	},
+	{
+		"anon6a864": 1
+	},
+	{
+		"anona4c3e": 1
+	},
+	{
+		"anon9cca4": 1
+	},
+	{
+		"anon872b2": 1
+	},
+	{
+		"anone87ab": 1
+	},
+	{
+		"anon85053": 1
+	},
+	{
+		"anonea654": 1
+	},
+	{
+		"anon7d55b": 1
+	},
+	{
+		"anonf5bca": 1
+	},
+	{
+		"anone04b3": 1
+	},
+	{
+		"anone04b3": 1
+	},
+	{
+		"anone698c": 1
+	},
+	{
+		"anon29b2a": 1
+	},
+	{
+		"anon29b2a": 1
+	},
+	{
+		"anonf342f": 1
+	},
+	{
+		"anon708bf": 1
+	},
+	{
+		"anona3a5f": 1
+	},
+	{
+		"anon86cdf": 1
+	},
+	{
+		"anonf6729": 1
+	},
+	{
+		"anon65828": 1
+	},
+	{
+		"anona8668": 1
+	},
+	{
+		"anon4e368": 1
+	},
+	{
+		"anonc3bf9": 1
+	},
+	{
+		"anonaf219": 1
+	},
+	{
+		"anona3e05": 1
+	},
+	{
+		"anona3e05": 1
+	},
+	{
+		"anon7d627": 1
+	},
+	{
+		"anon7d627": 1
+	},
+	{
+		"anon852e0": 1
+	},
+	{
+		"anon35917": 1
+	},
+	{
+		"anon35917": 1
+	},
+	{
+		"anon4fd67": 1
+	},
+	{
+		"anon0be95": 1
+	},
+	{
+		"anon1467c": 1
+	},
+	{
+		"anonbb2f4": 1
+	},
+	{
+		"anon510ba": 1
+	},
+	{
+		"anon9c6ca": 1
+	},
+	{
+		"no_comma":0
+	}
+	]
+}
+}
