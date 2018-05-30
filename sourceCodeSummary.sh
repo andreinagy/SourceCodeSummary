@@ -4,6 +4,8 @@
 # 
 # Project source code summary
 #
+# Style guide:
+# https://google.github.io/styleguide/shell.xml
 #
 # The MIT License (MIT)
 # 
@@ -45,14 +47,32 @@ if [[ $# -eq 0 ]] ; then
     exit 0
 fi
 
+# Arguments
 PROJECT_PATH=$1
 FILE_EXTENSION="swift"
 FORMAT=$2 #default is json
 ANONYMOUS="false"
 ANONYMOUS=$3
 
+
+if [[ $FORMAT == "tsv" ]]; then 
+	JSON_BRACE_OPEN=""
+	JSON_BRACE_CLOSE=""
+	JSON_BRACKET_OPEN=""
+	JSON_BRACKET_CLOSE=""
+	JSON_QUOTES=""
+	JSON_COLON='\t'
+	JSON_COMMA=""
+else
+	FORMAT="JSON"	
+fi
+
+INDENT='\t'
+
+# TSV Constants
 HACK_TSV_KEYWORDS_LENGHT=20
 
+# JSON Constants
 JSON_BRACE_OPEN="{"
 JSON_BRACE_CLOSE="}"
 JSON_BRACKET_OPEN="["
@@ -61,6 +81,7 @@ JSON_QUOTES="\""
 JSON_COLON=": "
 JSON_COMMA=","
 
+# Domain Constants
 TYPES=(
 	"class "
 	"struct "
@@ -104,26 +125,19 @@ NEGATIVE=(
 	"HACK"
 )
 
-KEYWORD_CLASS="class"
-KEYWORD_STRUCT="struct"
-KEYWORD_ENUM="enum"
-KEYWORD_PROTOCOL="protocol"
-KEYWORD_TYPEALIAS="typealias"
-KEYWORD_EXCLAMATION="!"
-
 # Utilities
 
 strip_spaces() {
-	local OUTPUT
-	OUTPUT=$(echo "${1}" | tr -d '[:space:]')
-	echo $OUTPUT
+	local result
+	result=$(echo "${1}" | tr -d '[:space:]')
+	echo $result
 }
 
 # truncate date to YYYY-MM-DD
 truncate_to_10_chars() {
-	local OUTPUT
-	OUTPUT=$(echo $1 |head -c 10)
-	echo $OUTPUT
+	local result
+	result=$(echo $1 |head -c 10)
+	echo $result
 }
 
 anonymize_string_if_needed() {
@@ -142,72 +156,72 @@ print_json_key_value() { # With optional leading space and trailingcomma
 
 date_start() {
 	# Project start date		git log --date=iso --reverse |head -3 |grep "Date"	
-	local CMD
-	CMD="git log --date=iso --reverse |head -3 |grep \"Date\""
-	local GITOUTPUT
-	GITOUTPUT=$(eval $CMD)
+	local command_string
+	command_string="git log --date=iso --reverse |head -3 |grep \"Date\""
+	local command_result
+	command_result=$(eval $command_string)
 	local GITPREFIX
 	GITPREFIX="Date:   "
-	local OUTPUT
-	OUTPUT=${GITOUTPUT#$GITPREFIX}
-	OUTPUT=$(truncate_to_10_chars $OUTPUT)
-	echo $OUTPUT
+	local result
+	result=${command_result#$GITPREFIX}
+	result=$(truncate_to_10_chars $result)
+	echo $result
 }
 
 date_end() {
 	# Project start date		git log --date=iso --reverse |head -3 |grep "Date"	
-	local CMD
-	CMD="git log --date=iso |head -4 |grep \"Date\""
-	local GITOUTPUT
-	GITOUTPUT=$(eval $CMD)
+	local command_string
+	command_string="git log --date=iso |head -4 |grep \"Date\""
+	local command_result
+	command_result=$(eval $command_string)
 	local GITPREFIX
 	GITPREFIX="Date:   "
-	local OUTPUT
-	OUTPUT=${GITOUTPUT#$GITPREFIX}
-	OUTPUT=$(truncate_to_10_chars $OUTPUT)
-	echo $OUTPUT
+	local result
+	result=${command_result#$GITPREFIX}
+	result=$(truncate_to_10_chars $result)
+	echo $result
 }
 
 files_number() { # file type in $1
 	# Number of files		find . -name "*.swift" |wc -l	
-	local CMD
-	CMD="find . -name \"*.$1\" |wc -l"
-	local GITOUTPUT
-	GITOUTPUT=$(eval $CMD)
-	local OUTPUT
-	OUTPUT=$(strip_spaces ${GITOUTPUT})
-	echo ${OUTPUT}
+	local command_string
+	command_string="find . -name \"*.$1\" |wc -l"
+	local command_result
+	command_result=$(eval $command_string)
+	local result
+	result=$(strip_spaces ${command_result})
+	echo ${result}
 }
 
 lines_number() {
-	local CMD
-	CMD="find . -name \"*.$1\" -print0 |xargs -0 cat | sed '/^\s*$/d' | wc -l"
-	local GITOUTPUT
-	GITOUTPUT=$(eval $CMD)
-	local OUTPUT
-	OUTPUT=$(strip_spaces ${GITOUTPUT})
-	echo ${OUTPUT}
+	local command_string
+	command_string="find . -name \"*.$1\" -print0 |xargs -0 cat | sed '/^\s*$/d' | wc -l"
+	local command_result
+	command_result=$(eval $command_string)
+	local result
+	result=$(strip_spaces ${command_result})
+	echo ${result}
 }
 
 occurrences_number() {
-	local CMD
-	CMD="find . -name \"*.$1\" -print0 |xargs -0 cat | sed '/^\s*$/d' | grep -e \"$2\" | wc -l"
-	local GITOUTPUT
-	GITOUTPUT=$(eval $CMD)
-	local OUTPUT
-	OUTPUT=$(strip_spaces ${GITOUTPUT})
-	echo ${OUTPUT}
+	local command_string
+	command_string="find . -name \"*.$1\" -print0 |xargs -0 cat | sed '/^\s*$/d' | grep -e \"$2\" | wc -l"
+	local command_result
+	command_result=$(eval $command_string)
+	local result
+	result=$(strip_spaces ${command_result})
+	echo ${result}
 }
 
 contributors_number () {
 	# Number of contributors		git shortlog -s -n |wc -l	
-	local CMD
-	CMD="git shortlog -s -n |wc -l"
-	local GITOUTPUT
-	GITOUTPUT=$(eval $CMD)
-	local OUTPUT
-	OUTPUT=$(strip_spaces ${GITOUTPUT})
-	echo ${OUTPUT}
+	local command_string
+	command_string="git shortlog -s -n |wc -l"
+	local command_result
+	command_result=$(eval $command_string)
+	local result
+	result=$(strip_spaces ${command_result})
+	echo ${result}
 }
 
 print_if_json () {
@@ -218,10 +232,10 @@ print_if_json () {
 
 print_contributors () {
 	# Number of contributors		git shortlog -s -n |wc -l	
-	local CMD
-	CMD="git shortlog -s -n"
-	local GITOUTPUT
-	GITOUTPUT="$(eval $CMD)"
+	local command_string
+	command_string="git shortlog -s -n"
+	local command_result
+	command_result="$(eval $command_string)"
 	
 	while read -r line; do
 	    IFS='	' read -r commits author <<< "$line"
@@ -230,7 +244,7 @@ print_contributors () {
 	    auth=$(anonymize_string_if_needed $author)
 	    echo -e $1$INDENT$JSON_QUOTES$auth$JSON_QUOTES$JSON_COLON$commits
 	    print_if_json $1$JSON_BRACE_CLOSE$JSON_COMMA
-	done <<< "$GITOUTPUT"
+	done <<< "$command_result"
 	
 	print_if_json $1$JSON_BRACE_OPEN
 # 	print_if_json $1$INDENT$JSON_QUOTES"no_comma"$JSON_QUOTES$JSON_COLON"0" wtf is wrong with this?
@@ -261,21 +275,7 @@ print_array_occurences() { # array argument
 
 # Main
 
-if [[ $FORMAT == "tsv" ]]; then 
-	JSON_BRACE_OPEN=""
-	JSON_BRACE_CLOSE=""
-	JSON_BRACKET_OPEN=""
-	JSON_BRACKET_CLOSE=""
-	JSON_QUOTES=""
-	JSON_COLON='\t'
-	JSON_COMMA=""
-else
-	FORMAT="JSON"	
-fi
-
 cd $PROJECT_PATH
-
-INDENT='\t'
 
 print_if_json $JSON_BRACE_OPEN
 echo -e $JSON_QUOTES"project"$JSON_QUOTES$JSON_COLON$JSON_BRACE_OPEN
