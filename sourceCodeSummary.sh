@@ -181,7 +181,7 @@ files_number() { # file type in $1
 
 lines_number() {
 	local CMD
-	CMD="find . -name \"*.$1\" | xargs cat | sed '/^\s*$/d' | wc -l"
+	CMD="find . -name \"*.$1\" -print0 |xargs -0 cat | sed '/^\s*$/d' | wc -l"
 	local GITOUTPUT
 	GITOUTPUT=$(eval $CMD)
 	local OUTPUT
@@ -189,10 +189,9 @@ lines_number() {
 	echo ${OUTPUT}
 }
 
-# find . -name "*.swift" -print0 |xargs -0 cat |grep cat:
 occurrences_number() {
 	local CMD
-	CMD="find . -name \"*.$1\" | xargs cat | sed '/^\s*$/d' | grep -e \"$2\" | wc -l"
+	CMD="find . -name \"*.$1\" -print0 |xargs -0 cat | sed '/^\s*$/d' | grep -e \"$2\" | wc -l"
 	local GITOUTPUT
 	GITOUTPUT=$(eval $CMD)
 	local OUTPUT
