@@ -47,6 +47,20 @@ if [[ $# -eq 0 ]] ; then
     exit 0
 fi
 
+INDENT='\t'
+
+# TSV Constants
+HACK_TSV_KEYWORDS_LENGHT=20
+
+# JSON Constants
+JSON_BRACE_OPEN="{"
+JSON_BRACE_CLOSE="}"
+JSON_BRACKET_OPEN="["
+JSON_BRACKET_CLOSE="]"
+JSON_QUOTES="\""
+JSON_COLON=": "
+JSON_COMMA=","
+
 # Arguments
 PROJECT_PATH=$1
 FILE_EXTENSION="swift"
@@ -66,20 +80,6 @@ if [[ $FORMAT == "tsv" ]]; then
 else
 	FORMAT="JSON"	
 fi
-
-INDENT='\t'
-
-# TSV Constants
-HACK_TSV_KEYWORDS_LENGHT=20
-
-# JSON Constants
-JSON_BRACE_OPEN="{"
-JSON_BRACE_CLOSE="}"
-JSON_BRACKET_OPEN="["
-JSON_BRACKET_CLOSE="]"
-JSON_QUOTES="\""
-JSON_COLON=": "
-JSON_COMMA=","
 
 # Domain Constants
 TYPES=(
@@ -148,39 +148,17 @@ anonymize_string_if_needed() {
 	fi
 }
 
-# Values
+print_if_json() {
+	if [[ $FORMAT == "JSON" ]];	then 
+		echo -e $1
+	fi
+}
 
 print_json_key_value() { # With optional leading space and trailingcomma
 	echo -e "$1$JSON_QUOTES$2$JSON_QUOTES$JSON_COLON$3$4"
 }
 
-date_start() {
-	# Project start date		git log --date=iso --reverse |head -3 |grep "Date"	
-	local command_string
-	command_string="git log --date=iso --reverse |head -3 |grep \"Date\""
-	local command_result
-	command_result=$(eval $command_string)
-	local GITPREFIX
-	GITPREFIX="Date:   "
-	local result
-	result=${command_result#$GITPREFIX}
-	result=$(truncate_to_10_chars $result)
-	echo $result
-}
-
-date_end() {
-	# Project start date		git log --date=iso --reverse |head -3 |grep "Date"	
-	local command_string
-	command_string="git log --date=iso |head -4 |grep \"Date\""
-	local command_result
-	command_result=$(eval $command_string)
-	local GITPREFIX
-	GITPREFIX="Date:   "
-	local result
-	result=${command_result#$GITPREFIX}
-	result=$(truncate_to_10_chars $result)
-	echo $result
-}
+# Shell commands
 
 files_number() { # file type in $1
 	# Number of files		find . -name "*.swift" |wc -l	
@@ -213,6 +191,32 @@ occurrences_number() {
 	echo ${result}
 }
 
+# Git
+
+date_from_git_command() {
+	local command_result
+	command_result=$(eval $1)
+	local git_date_prefix
+	git_date_prefix="Date:   "
+	local result
+	result=${command_result#$git_date_prefix}
+	result=$(truncate_to_10_chars $result)
+	echo $result
+}
+
+date_start() {
+	# Project start date		git log --date=iso --reverse |head -3 |grep "Date"	
+	local result
+	result=$(date_from_git_command "git log --date=iso --reverse |head -3 |grep \"Date\"")
+	echo $result
+}
+
+date_end () {
+	local result
+	result=$(date_from_git_command "git log --date=iso |head -4 |grep \"Date\"")
+	echo $result
+}
+
 contributors_number () {
 	# Number of contributors		git shortlog -s -n |wc -l	
 	local command_string
@@ -222,12 +226,6 @@ contributors_number () {
 	local result
 	result=$(strip_spaces ${command_result})
 	echo ${result}
-}
-
-print_if_json () {
-	if [[ $FORMAT == "JSON" ]];	then 
-		echo -e $1
-	fi
 }
 
 print_contributors () {
@@ -240,14 +238,16 @@ print_contributors () {
 	while read -r line; do
 	    IFS='	' read -r commits author <<< "$line"
 	    print_if_json $1$JSON_BRACE_OPEN
+	    
 	    local auth
 	    auth=$(anonymize_string_if_needed $author)
 	    echo -e $1$INDENT$JSON_QUOTES$auth$JSON_QUOTES$JSON_COLON$commits
+	    
 	    print_if_json $1$JSON_BRACE_CLOSE$JSON_COMMA
 	done <<< "$command_result"
 	
 	print_if_json $1$JSON_BRACE_OPEN
-# 	print_if_json $1$INDENT$JSON_QUOTES"no_comma"$JSON_QUOTES$JSON_COLON"0" wtf is wrong with this?
+# 	print_if_json $1$INDENT$JSON_QUOTES"no_comma"$JSON_QUOTES$JSON_COLON"0" not working for some reason
 	print_if_json $1$INDENT"\"no_comma\":0"
 	print_if_json $1$JSON_BRACE_CLOSE
 }
@@ -285,13 +285,13 @@ print_json_key_value $INDENT "script_author"	$JSON_QUOTES"Andrei Nagy"$JSON_QUOT
 project=$(anonymize_string_if_needed $PROJECT_PATH)
 print_json_key_value $INDENT "project_path"	$JSON_QUOTES$project$JSON_QUOTES $JSON_COMMA
 print_json_key_value $INDENT "project_scan_date"	$JSON_QUOTES"$(date '+%Y-%m-%d')"$JSON_QUOTES
-print_if_json $JSON_BRACE_CLOSE$JSON_COMMA #project
+print_if_json $JSON_BRACE_CLOSE$JSON_COMMA
 
 echo -e $JSON_QUOTES"files"$JSON_QUOTES$JSON_COLON$JSON_BRACE_OPEN
 print_json_key_value $INDENT "extension"	$JSON_QUOTES$FILE_EXTENSION$JSON_QUOTES	$JSON_COMMA
 print_json_key_value $INDENT "files_number"	$(files_number $FILE_EXTENSION)	$JSON_COMMA
 print_json_key_value $INDENT "non_empty_lines_number"	$(lines_number $FILE_EXTENSION)
-print_if_json $JSON_BRACE_CLOSE$JSON_COMMA #project
+print_if_json $JSON_BRACE_CLOSE$JSON_COMMA
 
 echo -e $JSON_QUOTES"keywords_types"$JSON_QUOTES$JSON_COLON$JSON_BRACE_OPEN
 print_array_occurences "${TYPES[@]}"
