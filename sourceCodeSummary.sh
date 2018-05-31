@@ -55,6 +55,8 @@ if [[ $# -eq 0 ]] ; then
 fi
 
 INDENT='\t'
+SCRIPT_TITLE="sourceCodeSummary.sh"
+SCRIPT_PATH=$(pwd)
 
 # TSV Constants
 HACK_TSV_KEYWORDS_LENGHT=20
@@ -152,7 +154,7 @@ truncate_to_10_chars() {
 
 anonymize_string_if_needed() {
 	if [ "$SHOULD_ANONYMIZE" = true ]; then
-		echo $(anonymize.sh $1)
+		echo $($SCRIPT_PATH/anonymize.sh $1)
 	else
 		echo $1
 	fi
@@ -290,7 +292,7 @@ cd $PROJECT_PATH
 print_if_json $JSON_BRACE_OPEN
 echo -e $JSON_QUOTES"project"$JSON_QUOTES$JSON_COLON$JSON_BRACE_OPEN
 
-print_json_key_value $INDENT "script_title"	$JSON_QUOTES$0$JSON_QUOTES $JSON_COMMA
+print_json_key_value $INDENT "script_title"	$JSON_QUOTES$SCRIPT_TITLE$JSON_QUOTES $JSON_COMMA
 print_json_key_value $INDENT "script_author"	$JSON_QUOTES"Andrei Nagy"$JSON_QUOTES $JSON_COMMA
 project=$(anonymize_string_if_needed $PROJECT_PATH)
 print_json_key_value $INDENT "project_path"	$JSON_QUOTES$project$JSON_QUOTES $JSON_COMMA

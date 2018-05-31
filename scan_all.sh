@@ -46,5 +46,5 @@ do
 	echo
 	file_name=$(output_file_name_for_path $i)
 	echo "$i: $file_name"
-	eval "sourceCodeSummary.sh $i tsv anon > $file_name"
+	eval "./sourceCodeSummary.sh $i tsv anon > $file_name"
 done
