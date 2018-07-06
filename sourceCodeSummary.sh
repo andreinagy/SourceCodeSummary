@@ -9,7 +9,7 @@
 #
 # The MIT License (MIT)
 #
-# Copyright (c) 2015 XMARTLABS
+# Copyright (c) 2015 Logic Pods
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -274,11 +274,16 @@ print_empty_lines_if_tsv() {
 }
 
 print_array_occurences() { # array argument
+	oIFS="$IFS"
+	IFS=$'\n'
+
 	arr=("$@")
 	for i in "${arr[@]}"
 	do
 		print_json_key_value $INDENT "$i"	$(occurrences_number $FILE_EXTENSION $i)	$JSON_COMMA
 	done
+	
+	IFS="$oIFS"
 
 	array_lenght="${#arr[@]}"
 	needed_empty_lines=$((HACK_TSV_KEYWORDS_LENGHT-array_lenght))
