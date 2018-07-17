@@ -1,16 +1,16 @@
 project	
-	script_title	/Users/andreinagy/_Work/LogicPods/SourceCodeSummary/sourceCodeSummary.sh
+	script_title	sourceCodeSummary.sh
 	script_author	Andrei Nagy
 	project_path	anon01b3a
-	project_scan_date	2018-05-30
+	project_scan_date	2018-07-17
 files	
 	extension	swift
 	files_number	22
 	non_empty_lines_number	2991
 keywords_types	
-	class 	62
-	struct 	4
-	enum 	12
+	class 	59
+	struct 	1
+	enum 	5
 	protocol 	0
 	typealias 	3
 
@@ -30,8 +30,8 @@ keywords_types
 
 	no_comma	Strings occurrences only. May result in false positives.
 keywords_functions	
-	func 	93
-	{ (	687
+	func 	89
+	{ (	27
 
 
 
@@ -52,10 +52,10 @@ keywords_functions
 
 	no_comma	Strings occurrences only. May result in false positives.
 keywords_complexity	
-	if 	135
+	if 	74
 	guard 	18
 	switch	7
-	 ? 	322
+	 ? 	8
 
 
 
@@ -79,7 +79,7 @@ keywords_positive
 	extension	2
 	forEach	1
 	map	23
-	 in 	604
+	 in 	35
 	self]	23
 	 ?? 	37
 	assert(	0
@@ -96,7 +96,7 @@ keywords_positive
 
 	no_comma	Strings occurrences only. May result in false positives.
 keywords_negative	
-	! 	123
+	! 	18
 	 shared	0
 	DispatchQueue.main	2
 	TODO	0
